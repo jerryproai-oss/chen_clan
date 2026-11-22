@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Phone, MapPin, Save } from 'lucide-react';
+import { ArrowLeft, Phone, MapPin, Save, Trash2 } from 'lucide-react';
 import styles from './page.module.css';
 
 const SURVEY_STATUSES = [
@@ -51,7 +51,17 @@ export default function MemberDetailPage() {
   const [surveyNote, setSurveyNote] = useState('');
 
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [userRole, setUserRole] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Fetch current user role
+  useEffect(() => {
+    fetch('/api/me')
+      .then((r) => r.json())
+      .then((data: { role: string }) => setUserRole(data.role))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch(`/api/members/${id}`)
@@ -117,6 +127,30 @@ export default function MemberDetailPage() {
       });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const canDelete = userRole === 'ADMIN' || userRole === 'EDITOR';
+
+  const handleDelete = async () => {
+    if (!confirm('確定要刪除此宗親記錄嗎？此操作無法復原。')) return;
+
+    setDeleting(true);
+    setMessage(null);
+
+    try {
+      const res = await fetch(`/api/members/${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || '刪除失敗');
+      }
+      router.push('/members');
+    } catch (err) {
+      setMessage({
+        type: 'error',
+        text: err instanceof Error ? err.message : '刪除失敗',
+      });
+      setDeleting(false);
     }
   };
 
@@ -281,6 +315,17 @@ export default function MemberDetailPage() {
         <Save size={20} />
         {saving ? '儲存中...' : '儲存'}
       </button>
+
+      {canDelete && (
+        <button
+          className={styles.deleteBtn}
+          onClick={handleDelete}
+          disabled={deleting}
+        >
+          <Trash2 size={20} />
+          {deleting ? '刪除中...' : '刪除此記錄'}
+        </button>
+      )}
     </div>
   );
 }

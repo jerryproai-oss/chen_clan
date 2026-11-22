@@ -58,7 +58,7 @@ export const POST = withAdmin(async (request: NextRequest, session) => {
     }
 
     // 驗證角色
-    const validRoles = ['ADMIN', 'CHAIRMAN', 'MANAGER', 'VOLUNTEER'];
+    const validRoles = ['ADMIN', 'CHAIRMAN', 'EDITOR', 'MANAGER', 'VOLUNTEER'];
     if (role && !validRoles.includes(role)) {
       return NextResponse.json(
         { error: '無效的角色' },

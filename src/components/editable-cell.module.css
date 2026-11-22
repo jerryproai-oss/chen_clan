@@ -1,0 +1,47 @@
+/* ── Editable Cell ────────────────────────────────────── */
+.cell {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.cell:hover {
+  background: var(--color-surface-hover);
+}
+
+.cellEditing {
+  padding: 0;
+  cursor: default;
+}
+
+.cellEditing:hover {
+  background: transparent;
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 2px solid #D4A017;
+  border-radius: var(--radius-sm);
+  background: #FFFDE7;
+  font-size: calc(var(--font-size-base) * 0.85);
+  font-family: inherit;
+  color: var(--color-text-primary);
+  min-height: 36px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #C49000;
+  box-shadow: 0 0 0 2px rgba(212, 160, 23, 0.25);
+}
+
+.placeholder {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: calc(var(--font-size-base) * 0.85);
+}

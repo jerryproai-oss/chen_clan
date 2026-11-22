@@ -16,6 +16,7 @@ interface NavItem {
   label: string;
   icon: LucideIcon;
   adminOnly?: boolean;
+  hideFor?: string[];
 }
 
 const NAV_ITEMS: NavItem[] = [

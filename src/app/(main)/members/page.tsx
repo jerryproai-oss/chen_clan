@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { InlineEditTable, InlineMember } from '@/components/inline-edit-table';
 import styles from './page.module.css';
 
 const STATUS_LABELS: Record<string, string> = {
@@ -34,7 +35,9 @@ interface Member {
   city: string;
   district: string | null;
   address: string;
+  phone: string | null;
   surveyStatus: string;
+  version: number;
 }
 
 interface ApiResponse {
@@ -44,9 +47,29 @@ interface ApiResponse {
   totalPages: number;
 }
 
+interface UserInfo {
+  role: string;
+}
+
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia(query);
+    setMatches(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [query]);
+
+  return matches;
+}
+
 export default function MembersPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [city, setCity] = useState(searchParams.get('city') || '');
@@ -55,6 +78,18 @@ export default function MembersPage() {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [cities, setCities] = useState<string[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  // Fetch current user info
+  useEffect(() => {
+    fetch('/api/me')
+      .then((r) => r.json())
+      .then((data: UserInfo) => setUserInfo(data))
+      .catch(() => {});
+  }, []);
+
+  const isEditor = userInfo?.role === 'EDITOR';
+  const pageLimit = isEditor ? 50 : 20;
 
   const fetchMembers = useCallback(async () => {
     setLoading(true);
@@ -64,7 +99,7 @@ export default function MembersPage() {
       if (city) params.set('city', city);
       if (status) params.set('status', status);
       params.set('page', String(page));
-      params.set('limit', '20');
+      params.set('limit', String(pageLimit));
 
       const res = await fetch(`/api/members?${params.toString()}`);
       if (res.ok) {
@@ -76,7 +111,7 @@ export default function MembersPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, city, status, page]);
+  }, [search, city, status, page, pageLimit]);
 
   useEffect(() => {
     fetchMembers();
@@ -111,6 +146,8 @@ export default function MembersPage() {
 
   const members = data?.members || [];
   const totalPages = data?.totalPages || 1;
+
+  const showInlineEdit = isEditor && isDesktop;
 
   return (
     <div className={styles.page}>
@@ -149,7 +186,41 @@ export default function MembersPage() {
         <p className={styles.emptyState}>載入中...</p>
       ) : members.length === 0 ? (
         <p className={styles.emptyState}>找不到符合條件的宗親</p>
+      ) : showInlineEdit ? (
+        /* ── EDITOR Inline Edit Table (desktop ≥ 1024px) ── */
+        <>
+          <InlineEditTable
+            members={members as InlineMember[]}
+            onRefresh={fetchMembers}
+          />
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className={styles.pagination}>
+              <button
+                className={page <= 1 ? styles.pageBtnDisabled : styles.pageBtn}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page <= 1}
+                aria-label="上一頁"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <span className={styles.pageInfo}>
+                {page} / {totalPages}
+              </span>
+              <button
+                className={page >= totalPages ? styles.pageBtnDisabled : styles.pageBtn}
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page >= totalPages}
+                aria-label="下一頁"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          )}
+        </>
       ) : (
+        /* ── Standard View (all roles, or EDITOR on mobile) ── */
         <>
           {/* Desktop Table */}
           <div className={styles.tableWrapper}>

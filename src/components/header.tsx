@@ -5,6 +5,7 @@ import styles from './header.module.css';
 const ROLE_LABELS: Record<string, string> = {
   ADMIN: '管理員',
   CHAIRMAN: '董事長',
+  EDITOR: '編輯人員',
   MANAGER: '總幹事',
   VOLUNTEER: '志工',
 };

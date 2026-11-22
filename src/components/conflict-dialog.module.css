@@ -1,0 +1,140 @@
+/* ── Conflict Dialog ──────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.15s ease;
+}
+
+.dialog {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 90%;
+  max-width: 440px;
+  animation: slideUp 0.2s ease;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.warningIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: calc(var(--font-size-base) * 1.1);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.body {
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.message {
+  font-size: calc(var(--font-size-base) * 0.9);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+}
+
+.conflictList {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: var(--spacing-sm);
+}
+
+.conflictItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-warning-bg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-xs);
+  font-size: calc(var(--font-size-base) * 0.85);
+}
+
+.conflictName {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.footer {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  justify-content: flex-end;
+}
+
+.reloadBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-secondary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: calc(var(--font-size-base) * 0.9);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+}
+
+.reloadBtn:hover {
+  background: var(--color-secondary-hover);
+}
+
+.forceBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-danger);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: calc(var(--font-size-base) * 0.9);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+}
+
+.forceBtn:hover {
+  opacity: 0.9;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

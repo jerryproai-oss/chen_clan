@@ -1,0 +1,116 @@
+/* ── Status Dropdown ──────────────────────────────────── */
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: calc(var(--font-size-base) * 0.7);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  min-height: 32px;
+  transition: opacity var(--transition-fast);
+}
+
+.trigger:hover {
+  opacity: 0.8;
+}
+
+.triggerArrow {
+  font-size: 0.6em;
+  margin-left: 2px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 140px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-xs) 0;
+  animation: slideDown 0.15s ease;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  font-size: calc(var(--font-size-base) * 0.8);
+  font-family: inherit;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-align: left;
+  min-height: 40px;
+  transition: background var(--transition-fast);
+}
+
+.option:hover {
+  background: var(--color-surface-hover);
+}
+
+.optionSelected {
+  composes: option;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Status colors for the trigger */
+.statusPENDING {
+  background: rgba(155, 149, 144, 0.15);
+  color: var(--color-status-pending);
+}
+
+.statusCONFIRMED {
+  background: rgba(46, 125, 106, 0.12);
+  color: var(--color-status-confirmed);
+}
+
+.statusUPDATED {
+  background: rgba(46, 107, 138, 0.12);
+  color: var(--color-status-updated);
+}
+
+.statusNOT_FOUND {
+  background: rgba(192, 57, 43, 0.12);
+  color: var(--color-status-not-found);
+}
+
+.statusWRONG_ADDRESS {
+  background: rgba(184, 134, 11, 0.12);
+  color: var(--color-status-wrong-address);
+}
+
+.statusMOVED {
+  background: rgba(139, 94, 60, 0.12);
+  color: var(--color-status-moved);
+}
+
+.statusNEW {
+  background: rgba(106, 90, 205, 0.12);
+  color: var(--color-status-new);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

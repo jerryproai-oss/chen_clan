@@ -1,0 +1,89 @@
+/* ── Batch Save Bar ───────────────────────────────────── */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+  animation: slideDown 0.2s ease;
+}
+
+.info {
+  font-size: calc(var(--font-size-base) * 0.9);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.count {
+  color: var(--color-warning);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-left: auto;
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: calc(var(--font-size-base) * 0.85);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+}
+
+.saveBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: calc(var(--font-size-base) * 0.85);
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+}
+
+.cancelBtn:hover {
+  background: var(--color-surface-hover);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

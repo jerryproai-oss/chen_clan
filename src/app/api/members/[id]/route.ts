@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/client';
-import { withAuth, hasGlobalView } from '@/lib/auth/middleware';
+import { withAuth, hasGlobalView, hasDeleteAccess } from '@/lib/auth/middleware';
 import { logAudit } from '@/lib/audit';
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -112,6 +112,44 @@ export const PATCH = withAuth(async (request: NextRequest, session) => {
     return NextResponse.json({ member });
   } catch (error) {
     console.error('Member PATCH error:', error);
+    return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
+  }
+});
+
+
+// DELETE /api/members/[id] — 刪除宗親
+export const DELETE = withAuth(async (request: NextRequest, session) => {
+  try {
+    if (!hasDeleteAccess(session.user.role)) {
+      return NextResponse.json({ error: '權限不足' }, { status: 403 });
+    }
+
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop()!;
+
+    const member = await prisma.member.findUnique({ where: { id } });
+    if (!member) {
+      return NextResponse.json({ error: '找不到此宗親' }, { status: 404 });
+    }
+
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    await logAudit({
+      action: 'MEMBER_DELETED',
+      userId: session.user.id,
+      details: {
+        memberId: member.id,
+        name: member.name,
+        city: member.city,
+        district: member.district,
+      },
+      ip,
+    });
+
+    await prisma.member.delete({ where: { id } });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Member DELETE error:', error);
     return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
   }
 });

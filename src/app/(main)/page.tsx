@@ -199,7 +199,7 @@ export default async function DashboardPage() {
   if (!session) redirect('/login');
 
   const { user } = session;
-  const role = user.role;
+  const role = user.role as string;
 
   return (
     <div className={styles.page}>
@@ -212,13 +212,15 @@ export default async function DashboardPage() {
             ? '系統管理員總覽'
             : role === 'CHAIRMAN'
               ? '董事長總覽'
-              : role === 'MANAGER'
-                ? '區域管理總覽'
-                : '我的普查進度'}
+              : role === 'EDITOR'
+                ? '編輯人員總覽'
+                : role === 'MANAGER'
+                  ? '區域管理總覽'
+                  : '我的普查進度'}
         </p>
       </div>
 
-      {(role === 'ADMIN' || role === 'CHAIRMAN') && <AdminDashboard />}
+      {(role === 'ADMIN' || role === 'CHAIRMAN' || role === 'EDITOR') && <AdminDashboard />}
       {role === 'MANAGER' && <ManagerDashboard assignments={user.assignments} />}
       {role === 'VOLUNTEER' && (
         <VolunteerDashboard userId={user.id} assignments={user.assignments} />

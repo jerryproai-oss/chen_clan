@@ -14,6 +14,7 @@ const CITIES = [
 const ROLES = [
   { value: 'VOLUNTEER', label: '志工' },
   { value: 'MANAGER', label: '總幹事' },
+  { value: 'EDITOR', label: '編輯人員' },
   { value: 'CHAIRMAN', label: '董事長' },
   { value: 'ADMIN', label: '管理員' },
 ];

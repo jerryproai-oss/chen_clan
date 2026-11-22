@@ -198,6 +198,37 @@
   cursor: not-allowed;
 }
 
+/* ── Delete Button ─────────────────────────────────────── */
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--spacing-md);
+  background: transparent;
+  color: var(--color-danger);
+  border: 2px solid var(--color-danger);
+  border-radius: var(--radius-lg);
+  font-size: calc(var(--font-size-base) * 1.1);
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: var(--spacing-sm);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.deleteBtn:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .successMsg {
   text-align: center;
   color: var(--color-success);
