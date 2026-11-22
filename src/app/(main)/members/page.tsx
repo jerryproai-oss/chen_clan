@@ -47,6 +47,20 @@ interface ApiResponse {
   totalPages: number;
 }
 
+interface CityInfo {
+  name: string;
+  count: number;
+  geoOrder: number;
+}
+
+type CitySortMode = 'count' | 'northToSouth' | 'southToNorth';
+
+const SORT_LABELS: Record<CitySortMode, string> = {
+  count: '📊 依筆數',
+  northToSouth: '🧭 由北到南',
+  southToNorth: '🧭 由南到北',
+};
+
 interface UserInfo {
   role: string;
 }
@@ -77,7 +91,8 @@ export default function MembersPage() {
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [cities, setCities] = useState<string[]>([]);
+  const [cities, setCities] = useState<CityInfo[]>([]);
+  const [citySortMode, setCitySortMode] = useState<CitySortMode>('count');
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   // Fetch current user info
@@ -121,11 +136,18 @@ export default function MembersPage() {
   useEffect(() => {
     fetch('/api/members/cities')
       .then((r) => r.json())
-      .then((data: { cities: string[] }) => {
+      .then((data: { cities: CityInfo[] }) => {
         setCities(data.cities || []);
       })
       .catch(() => {});
   }, []);
+
+  // Sort cities based on selected mode
+  const sortedCities = [...cities].sort((a, b) => {
+    if (citySortMode === 'count') return b.count - a.count;
+    if (citySortMode === 'northToSouth') return a.geoOrder - b.geoOrder;
+    return b.geoOrder - a.geoOrder; // southToNorth
+  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,8 +182,18 @@ export default function MembersPage() {
           onChange={(e) => { setCity(e.target.value); setPage(1); }}
         >
           <option value="">全部縣市</option>
-          {cities.map((c) => (
-            <option key={c} value={c}>{c}</option>
+          {sortedCities.map((c) => (
+            <option key={c.name} value={c.name}>{c.name}（{c.count}）</option>
+          ))}
+        </select>
+        <select
+          className={styles.sortSelect}
+          value={citySortMode}
+          onChange={(e) => setCitySortMode(e.target.value as CitySortMode)}
+          title="縣市排序方式"
+        >
+          {(Object.entries(SORT_LABELS) as [CitySortMode, string][]).map(([key, label]) => (
+            <option key={key} value={key}>{label}</option>
           ))}
         </select>
         <select
