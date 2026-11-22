@@ -69,14 +69,15 @@ export default function MemberDetailPage() {
         if (!r.ok) throw new Error('Not found');
         return r.json();
       })
-      .then((data: MemberData) => {
-        setMember(data);
-        setName(data.name);
-        setAddress(data.address);
-        setPhone(data.phone || '');
-        setNote(data.note || '');
-        setSurveyStatus(data.surveyStatus);
-        setSurveyNote(data.surveyNote || '');
+      .then((data: { member: MemberData }) => {
+        const m = data.member;
+        setMember(m);
+        setName(m.name);
+        setAddress(m.address);
+        setPhone(m.phone || '');
+        setNote(m.note || '');
+        setSurveyStatus(m.surveyStatus);
+        setSurveyNote(m.surveyNote || '');
       })
       .catch(() => {
         setMember(null);

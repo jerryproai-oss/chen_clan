@@ -117,19 +117,12 @@ export default function MembersPage() {
     fetchMembers();
   }, [fetchMembers]);
 
-  // Fetch city list once
+  // Fetch city list once from dedicated API
   useEffect(() => {
-    fetch('/api/members?limit=1')
+    fetch('/api/members/cities')
       .then((r) => r.json())
-      .then(() => {
-        // Extract unique cities from a broader query
-        fetch('/api/members?limit=9999')
-          .then((r) => r.json())
-          .then((json: ApiResponse) => {
-            const uniqueCities = [...new Set(json.members.map((m) => m.city))].sort();
-            setCities(uniqueCities);
-          })
-          .catch(() => {});
+      .then((data: { cities: string[] }) => {
+        setCities(data.cities || []);
       })
       .catch(() => {});
   }, []);
