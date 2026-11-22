@@ -9,6 +9,7 @@ import styles from './page.module.css';
 const ROLE_LABELS: Record<string, string> = {
   ADMIN: '管理員',
   CHAIRMAN: '董事長',
+  EDITOR: '編輯人員',
   MANAGER: '總幹事',
   VOLUNTEER: '志工',
 };
@@ -57,12 +58,15 @@ export default function AdminPage() {
     try {
       const res = await fetch(`/api/admin/users/${userId}/reset-password`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
       });
       if (res.ok) {
         const data = await res.json();
-        alert(`密碼已重設為：${data.temporaryPassword || 'changeme123'}\n請通知使用者登入後修改密碼。`);
+        alert(`密碼已重設為：${data.temporaryPassword}\n請通知使用者登入後修改密碼。`);
       } else {
-        alert('重設密碼失敗');
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || '重設密碼失敗');
       }
     } catch {
       alert('重設密碼失敗');

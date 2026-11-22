@@ -4,6 +4,15 @@ import { withAdmin } from '@/lib/auth/middleware';
 import { hashPassword } from '@/lib/auth/password';
 import { logAudit } from '@/lib/audit';
 
+function generateTempPassword(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let result = '';
+  for (let i = 0; i < 10; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
 // POST /api/admin/users/[id]/reset-password — 重設使用者密碼
 export const POST = withAdmin(async (
   request: NextRequest,
@@ -14,13 +23,16 @@ export const POST = withAdmin(async (
   const id = segments[segments.length - 2]; // .../[id]/reset-password
 
   try {
-    const { newPassword } = await request.json();
-
-    if (!newPassword || newPassword.length < 6) {
-      return NextResponse.json(
-        { error: '新密碼至少需要 6 個字元' },
-        { status: 400 }
-      );
+    // 允許管理員自訂密碼，或自動產生
+    let newPassword: string;
+    try {
+      const body = await request.json();
+      newPassword = body.newPassword && body.newPassword.length >= 6
+        ? body.newPassword
+        : generateTempPassword();
+    } catch {
+      // 沒有 body 或解析失敗 → 自動產生
+      newPassword = generateTempPassword();
     }
 
     const user = await prisma.user.findUnique({
@@ -57,7 +69,7 @@ export const POST = withAdmin(async (
       ip,
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, temporaryPassword: newPassword });
   } catch (error) {
     console.error('Reset password error:', error);
     return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });

@@ -59,7 +59,7 @@ export default function MemberDetailPage() {
   useEffect(() => {
     fetch('/api/me')
       .then((r) => r.json())
-      .then((data: { role: string }) => setUserRole(data.role))
+      .then((data: { user: { role: string } }) => setUserRole(data.user?.role || ''))
       .catch(() => {});
   }, []);
 

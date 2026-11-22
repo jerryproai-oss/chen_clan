@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Trash2 } from 'lucide-react';
 import { EditableCell } from './editable-cell';
 import { StatusDropdown } from './status-dropdown';
@@ -45,12 +45,12 @@ export function InlineEditTable({ members, onRefresh }: InlineEditTableProps) {
   const cellRefs = useRef<Map<string, () => void>>(new Map());
 
   // Sync rows from parent when members change
-  useState(() => {
+  useEffect(() => {
     setRows(members);
     setModifications(new Map());
     setNewRows([]);
     setDeletedIds(new Set());
-  });
+  }, [members]);
 
   const modifiedCount = modifications.size + newRows.length + deletedIds.size;
 

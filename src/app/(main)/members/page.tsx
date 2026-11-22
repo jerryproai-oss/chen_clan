@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -86,6 +86,7 @@ export default function MembersPage() {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   const [search, setSearch] = useState(searchParams.get('search') || '');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [city, setCity] = useState(searchParams.get('city') || '');
   const [status, setStatus] = useState(searchParams.get('status') || '');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
@@ -95,11 +96,21 @@ export default function MembersPage() {
   const [citySortMode, setCitySortMode] = useState<CitySortMode>('count');
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
+  // Debounce search input (300ms)
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  useEffect(() => {
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 300);
+    return () => clearTimeout(debounceRef.current);
+  }, [search]);
+
   // Fetch current user info
   useEffect(() => {
     fetch('/api/me')
       .then((r) => r.json())
-      .then((data: UserInfo) => setUserInfo(data))
+      .then((data: { user: UserInfo }) => setUserInfo(data.user))
       .catch(() => {});
   }, []);
 
@@ -110,7 +121,7 @@ export default function MembersPage() {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      if (search) params.set('search', search);
+      if (debouncedSearch) params.set('search', debouncedSearch);
       if (city) params.set('city', city);
       if (status) params.set('status', status);
       params.set('page', String(page));
@@ -126,7 +137,7 @@ export default function MembersPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, city, status, page, pageLimit]);
+  }, [debouncedSearch, city, status, page, pageLimit]);
 
   useEffect(() => {
     fetchMembers();
@@ -161,6 +172,7 @@ export default function MembersPage() {
 
   const members = data?.members || [];
   const totalPages = data?.totalPages || 1;
+  const total = data?.total || 0;
 
   const showInlineEdit = isEditor && isDesktop;
 
@@ -174,7 +186,7 @@ export default function MembersPage() {
           className={styles.searchInput}
           placeholder="搜尋姓名..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <select
           className={styles.filterSelect}
@@ -231,7 +243,7 @@ export default function MembersPage() {
                 <ChevronLeft size={18} />
               </button>
               <span className={styles.pageInfo}>
-                {page} / {totalPages}
+                共 {total.toLocaleString()} 筆　{page} / {totalPages} 頁
               </span>
               <button
                 className={page >= totalPages ? styles.pageBtnDisabled : styles.pageBtn}
@@ -315,7 +327,7 @@ export default function MembersPage() {
                 <ChevronLeft size={18} />
               </button>
               <span className={styles.pageInfo}>
-                {page} / {totalPages}
+                共 {total.toLocaleString()} 筆　{page} / {totalPages} 頁
               </span>
               <button
                 className={page >= totalPages ? styles.pageBtnDisabled : styles.pageBtn}
