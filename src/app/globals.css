@@ -1,0 +1,207 @@
+/* ================================================================
+   宗親普查系統 — Design System Tokens
+   ================================================================ */
+
+:root {
+  /* ── 主色調：溫暖棕色系 ──────────────────────────────── */
+  --color-primary: #8B5E3C;
+  --color-primary-hover: #7A5235;
+  --color-primary-light: rgba(139, 94, 60, 0.1);
+  --color-primary-dark: #6B4A30;
+
+  /* ── 輔助色：翡翠綠 ──────────────────────────────────── */
+  --color-secondary: #2E7D6A;
+  --color-secondary-hover: #266A5A;
+  --color-secondary-light: rgba(46, 125, 106, 0.1);
+
+  /* ── 背景與表面 ──────────────────────────────────────── */
+  --color-background: #FAF7F2;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F5F0EB;
+  --color-surface-secondary: #F0EBE5;
+
+  /* ── 文字 ────────────────────────────────────────────── */
+  --color-text-primary: #2D2A26;
+  --color-text-secondary: #6B6560;
+  --color-text-muted: #9B9590;
+
+  /* ── 邊框 ────────────────────────────────────────────── */
+  --color-border: #E5DED6;
+  --color-border-light: #F0EBE5;
+
+  /* ── 語意色彩 ────────────────────────────────────────── */
+  --color-success: #2E7D6A;
+  --color-success-bg: rgba(46, 125, 106, 0.08);
+  --color-warning: #B8860B;
+  --color-warning-bg: rgba(184, 134, 11, 0.08);
+  --color-danger: #C0392B;
+  --color-danger-bg: rgba(192, 57, 43, 0.08);
+  --color-info: #2E6B8A;
+  --color-info-bg: rgba(46, 107, 138, 0.08);
+
+  /* ── 普查狀態色彩 ────────────────────────────────────── */
+  --color-status-pending: #9B9590;
+  --color-status-confirmed: #2E7D6A;
+  --color-status-updated: #2E6B8A;
+  --color-status-not-found: #C0392B;
+  --color-status-wrong-address: #B8860B;
+  --color-status-moved: #8B5E3C;
+  --color-status-new: #6A5ACD;
+
+  /* ── 間距 ────────────────────────────────────────────── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ── 圓角 ────────────────────────────────────────────── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ── 陰影 ────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* ── 字型 ────────────────────────────────────────────── */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC',
+    'Microsoft JhengHei', sans-serif;
+
+  /* ── 字體大小系統（預設 Level 3 = 20px） ──────────────── */
+  --font-scale: 1.25;
+  --font-size-base: calc(var(--font-scale) * 1rem);
+
+  /* ── 轉場 ────────────────────────────────────────────── */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
+
+/* ── 字體大小等級（5 級：16/18/20/22/24px）──────────────── */
+html[data-font-size="16"] { --font-scale: 1; }
+html[data-font-size="18"] { --font-scale: 1.125; }
+html[data-font-size="20"] { --font-scale: 1.25; }
+html[data-font-size="22"] { --font-scale: 1.375; }
+html[data-font-size="24"] { --font-scale: 1.5; }
+
+/* ── CSS Reset ──────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── 無障礙：最小觸控目標 48×48px ──────────────────────── */
+button,
+a[role="button"],
+input[type="submit"],
+input[type="button"],
+.touchable {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* ── 焦點樣式（高可見度） ───────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ── 捲軸 ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ── 響應式容器 ────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* ── 主內容區（手機底部導覽列留白） ─────────────────────── */
+.mainContent {
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding-bottom: calc(60px + var(--spacing-md));
+  }
+}
+
+/* ── 通用動畫 ──────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

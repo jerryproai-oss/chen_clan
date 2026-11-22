@@ -1,0 +1,263 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.25s ease;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.modalTitle {
+  font-size: calc(var(--font-size-base) * 1.1);
+  font-weight: 700;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.modalBody {
+  padding: var(--spacing-lg);
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.fieldLabel {
+  font-size: calc(var(--font-size-base) * 0.85);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.required {
+  color: var(--color-danger);
+}
+
+.fieldInput {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  min-height: 48px;
+}
+
+.fieldInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-light);
+}
+
+.fieldSelect {
+  composes: fieldInput;
+  cursor: pointer;
+}
+
+/* ── Area Selector ────────────────────────────────────── */
+.areaSection {
+  margin-top: var(--spacing-md);
+}
+
+.areaSectionTitle {
+  font-size: calc(var(--font-size-base) * 0.9);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.areaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.areaTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-secondary-light);
+  color: var(--color-secondary);
+  border-radius: var(--radius-full);
+  font-size: calc(var(--font-size-base) * 0.8);
+  font-weight: 500;
+}
+
+.removeAreaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: var(--color-secondary);
+  cursor: pointer;
+  font-size: calc(var(--font-size-base) * 0.8);
+  border-radius: var(--radius-full);
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.removeAreaBtn:hover {
+  background: rgba(46, 125, 106, 0.2);
+}
+
+.addAreaRow {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.addAreaSelect {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: calc(var(--font-size-base) * 0.9);
+  min-height: 48px;
+  cursor: pointer;
+}
+
+.addAreaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  background: var(--color-secondary-light);
+  color: var(--color-secondary);
+  font-size: calc(var(--font-size-base) * 0.85);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.addAreaBtn:hover {
+  background: var(--color-secondary);
+  color: #fff;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+.modalFooter {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.cancelBtn:hover {
+  background: var(--color-surface-hover);
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.saveBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorMsg {
+  color: var(--color-danger);
+  font-weight: 600;
+  font-size: calc(var(--font-size-base) * 0.9);
+  padding: var(--spacing-sm) 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}

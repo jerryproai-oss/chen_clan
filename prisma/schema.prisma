@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ──────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  CHAIRMAN
+  MANAGER
+  VOLUNTEER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum SurveyStatus {
+  PENDING
+  CONFIRMED
+  UPDATED
+  NOT_FOUND
+  WRONG_ADDRESS
+  MOVED
+  NEW
+}
+
+// ─── Users & Auth ───────────────────────────────────────
+
+model User {
+  id              String     @id @default(cuid())
+  username        String     @unique
+  passwordHash    String     @map("password_hash")
+  displayName     String     @map("display_name")
+  role            Role       @default(VOLUNTEER)
+  status          UserStatus @default(ACTIVE)
+  fontSize        String     @default("20") @map("font_size")
+  mustChangePassword Boolean @default(true) @map("must_change_password")
+  lastLoginAt     DateTime?  @map("last_login_at")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+
+  sessions        Session[]
+  auditEvents     AuditEvent[]  @relation("AuditUser")
+  assignments     UserAssignment[]
+  surveyedMembers Member[]      @relation("SurveyedBy")
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique @map("token_hash")
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  idleAt    DateTime @map("idle_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+// ─── User Assignments (管理區域分配) ────────────────────
+
+model UserAssignment {
+  id       String @id @default(cuid())
+  userId   String @map("user_id")
+  city     String
+  district String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, city, district])
+  @@index([userId])
+  @@index([city])
+  @@map("user_assignments")
+}
+
+// ─── Members (宗親名單) ─────────────────────────────────
+
+model Member {
+  id              String       @id @default(cuid())
+  serialNumber    Int?         @map("serial_number")
+  name            String
+  postalCode      String?      @map("postal_code")
+  city            String
+  district        String?
+  village         String?
+  address         String
+  fullAddress     String       @map("full_address")
+  phone           String?
+  note            String?
+
+  // 普查欄位
+  surveyStatus    SurveyStatus @default(PENDING) @map("survey_status")
+  surveyNote      String?      @map("survey_note")
+  surveyedById    String?      @map("surveyed_by_id")
+  surveyedAt      DateTime?    @map("surveyed_at")
+
+  // 版本控制（離線同步用）
+  version         Int          @default(1)
+
+  // 匯入來源
+  sourceSheet     String?      @map("source_sheet")
+
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  surveyedBy      User?        @relation("SurveyedBy", fields: [surveyedById], references: [id], onDelete: SetNull)
+
+  @@index([city])
+  @@index([district])
+  @@index([surveyStatus])
+  @@index([surveyedById])
+  @@index([name])
+  @@map("members")
+}
+
+// ─── Audit Log ──────────────────────────────────────────
+
+model AuditEvent {
+  id        String   @id @default(cuid())
+  action    String
+  userId    String?  @map("user_id")
+  details   Json?
+  ip        String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User? @relation("AuditUser", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([action])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_events")
+}
+
+// ─── System Settings ────────────────────────────────────
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("system_settings")
+}

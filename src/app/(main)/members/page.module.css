@@ -1,0 +1,276 @@
+.page {
+  animation: fadeIn 0.3s ease;
+}
+
+.pageTitle {
+  font-size: calc(var(--font-size-base) * 1.3);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ── Search / Filter Bar ──────────────────────────────── */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  min-height: 48px;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-light);
+}
+
+.filterSelect {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: calc(var(--font-size-base) * 0.9);
+  color: var(--color-text-primary);
+  min-height: 48px;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* ── Desktop Table ────────────────────────────────────── */
+.tableWrapper {
+  display: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface-secondary);
+  color: var(--color-text-secondary);
+  font-size: calc(var(--font-size-base) * 0.8);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  font-size: calc(var(--font-size-base) * 0.9);
+}
+
+.table tbody tr {
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.table tbody tr:hover {
+  background: var(--color-surface-hover);
+}
+
+.tableLink {
+  text-decoration: none;
+  color: inherit;
+  display: contents;
+}
+
+/* ── Mobile Card List ─────────────────────────────────── */
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  min-height: 48px;
+}
+
+.card:hover {
+  background: var(--color-surface-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cardName {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+}
+
+.cardAddress {
+  font-size: calc(var(--font-size-base) * 0.8);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Status Badge ─────────────────────────────────────── */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: calc(var(--font-size-base) * 0.7);
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusPENDING {
+  composes: statusBadge;
+  background: rgba(155, 149, 144, 0.15);
+  color: var(--color-status-pending);
+}
+
+.statusCONFIRMED {
+  composes: statusBadge;
+  background: rgba(46, 125, 106, 0.12);
+  color: var(--color-status-confirmed);
+}
+
+.statusUPDATED {
+  composes: statusBadge;
+  background: rgba(46, 107, 138, 0.12);
+  color: var(--color-status-updated);
+}
+
+.statusNOT_FOUND {
+  composes: statusBadge;
+  background: rgba(192, 57, 43, 0.12);
+  color: var(--color-status-not-found);
+}
+
+.statusWRONG_ADDRESS {
+  composes: statusBadge;
+  background: rgba(184, 134, 11, 0.12);
+  color: var(--color-status-wrong-address);
+}
+
+.statusMOVED {
+  composes: statusBadge;
+  background: rgba(139, 94, 60, 0.12);
+  color: var(--color-status-moved);
+}
+
+.statusNEW {
+  composes: statusBadge;
+  background: rgba(106, 90, 205, 0.12);
+  color: var(--color-status-new);
+}
+
+/* ── Pagination ───────────────────────────────────────── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.pageBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: calc(var(--font-size-base) * 0.9);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition-fast);
+}
+
+.pageBtn:hover {
+  background: var(--color-surface-hover);
+}
+
+.pageBtnDisabled {
+  composes: pageBtn;
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pageBtnActive {
+  composes: pageBtn;
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.pageInfo {
+  font-size: calc(var(--font-size-base) * 0.85);
+  color: var(--color-text-secondary);
+}
+
+/* ── Empty State ──────────────────────────────────────── */
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-md);
+  color: var(--color-text-muted);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (min-width: 769px) {
+  .tableWrapper {
+    display: block;
+  }
+
+  .cardList {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

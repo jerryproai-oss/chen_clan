@@ -1,0 +1,211 @@
+.page {
+  animation: fadeIn 0.3s ease;
+}
+
+.pageTitle {
+  font-size: calc(var(--font-size-base) * 1.3);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+}
+
+.addBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+/* ── Desktop Table ────────────────────────────────────── */
+.tableWrapper {
+  display: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface-secondary);
+  color: var(--color-text-secondary);
+  font-size: calc(var(--font-size-base) * 0.8);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  font-size: calc(var(--font-size-base) * 0.9);
+}
+
+/* ── Mobile Card List ─────────────────────────────────── */
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cardName {
+  font-weight: 600;
+}
+
+.cardMeta {
+  font-size: calc(var(--font-size-base) * 0.8);
+  color: var(--color-text-secondary);
+}
+
+.cardActions {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+/* ── Action Buttons ───────────────────────────────────── */
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: var(--spacing-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  font-size: calc(var(--font-size-base) * 0.8);
+}
+
+.actionBtn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.actionBtnDanger {
+  composes: actionBtn;
+}
+
+.actionBtnDanger:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+/* ── Badges ───────────────────────────────────────────── */
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: calc(var(--font-size-base) * 0.7);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roleADMIN {
+  composes: roleBadge;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.roleCHAIRMAN {
+  composes: roleBadge;
+  background: rgba(106, 90, 205, 0.12);
+  color: #6A5ACD;
+}
+
+.roleMANAGER {
+  composes: roleBadge;
+  background: var(--color-secondary-light);
+  color: var(--color-secondary);
+}
+
+.roleVOLUNTEER {
+  composes: roleBadge;
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.statusActive {
+  color: var(--color-success);
+  font-weight: 600;
+  font-size: calc(var(--font-size-base) * 0.8);
+}
+
+.statusInactive {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: calc(var(--font-size-base) * 0.8);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-md);
+  color: var(--color-text-muted);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (min-width: 769px) {
+  .tableWrapper {
+    display: block;
+  }
+
+  .cardList {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

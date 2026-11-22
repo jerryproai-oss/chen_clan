@@ -1,0 +1,117 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 var(--spacing-md);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.title {
+  font-size: calc(var(--font-size-base) * 1.1);
+  font-weight: 700;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.titleShort {
+  display: none;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: calc(var(--font-size-base) * 0.85);
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: calc(var(--font-size-base) * 0.75);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Desktop nav (hidden on mobile, shown > 768px) */
+.desktopNav {
+  display: none;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: calc(var(--font-size-base) * 0.85);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  min-height: 48px;
+}
+
+.navLink:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 769px) {
+  .header {
+    padding: 0 var(--spacing-lg);
+  }
+
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    display: none;
+  }
+
+  .titleShort {
+    display: block;
+    font-size: calc(var(--font-size-base) * 1);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .userInfo {
+    display: none;
+  }
+
+  .right {
+    gap: var(--spacing-sm);
+  }
+}
