@@ -49,6 +49,10 @@ export function EditableCell({
       onTab?.();
     } else if (e.key === 'Enter') {
       e.preventDefault();
+      // IME 安全：中文/日文/韓文輸入法按 Enter 確認選字時不要 commit
+      if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) {
+        return;
+      }
       commit();
       onEnter?.();
     } else if (e.key === 'Escape') {

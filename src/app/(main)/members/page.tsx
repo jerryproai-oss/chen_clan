@@ -154,7 +154,7 @@ export default function MembersPage() {
   }, []);
 
   // Sort cities based on selected mode
-  const sortedCities = [...cities].sort((a, b) => {
+  const sortedCities = cities.toSorted((a, b) => {
     if (citySortMode === 'count') return b.count - a.count;
     if (citySortMode === 'northToSouth') return a.geoOrder - b.geoOrder;
     return b.geoOrder - a.geoOrder; // southToNorth
